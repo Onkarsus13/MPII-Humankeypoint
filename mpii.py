@@ -10,11 +10,11 @@ from importlib_resources import open_binary
 from scipy.io import loadmat
 from tabulate import tabulate
 
-import stacked_hourglass.res
-from stacked_hourglass.datasets.common import DataInfo
-from stacked_hourglass.utils.imutils import load_image, draw_labelmap
-from stacked_hourglass.utils.misc import to_torch
-from stacked_hourglass.utils.transforms import shufflelr, crop, color_normalize, fliplr, transform
+import res
+from common import DataInfo
+from utils.imutils import load_image, draw_labelmap
+from utils.misc import to_torch
+from utils.transforms import shufflelr, crop, color_normalize, fliplr, transform
 
 MPII_JOINT_NAMES = [
     'right_ankle', 'right_knee', 'right_hip', 'left_hip',
@@ -64,6 +64,7 @@ class Mpii(data.Dataset):
                 self.valid_list.append(idx)
             else:
                 self.train_list.append(idx)
+                
 
     def __getitem__(self, index):
         sf = self.scale_factor
@@ -72,6 +73,8 @@ class Mpii(data.Dataset):
             a = self.anno[self.train_list[index]]
         else:
             a = self.anno[self.valid_list[index]]
+
+        
 
         img_path = os.path.join(self.img_folder, a['img_paths'])
         pts = torch.Tensor(a['joint_self'])
