@@ -13,7 +13,7 @@ from stacked_hourglass.datasets.mpii import Mpii
 from stacked_hourglass.train import do_training_epoch, do_validation_epoch
 from stacked_hourglass.utils.logger import Logger
 from stacked_hourglass.utils.misc import save_checkpoint, adjust_learning_rate
-
+import mlflow.pytorch
 
 def main(args):
     # Select the hardware device to use for inference.
@@ -87,7 +87,7 @@ def main(args):
                                                   acc_joints=Mpii.ACC_JOINTS)
 
         # evaluate on validation set
-        valid_loss, valid_acc, predictions = do_validation_epoch(val_loader, model, device,
+        valid_loss, valid_acc, predictions = do_validation_epoch(train_loader, model, device,
                                                                  Mpii.DATA_INFO, False,
                                                                  acc_joints=Mpii.ACC_JOINTS)
 
@@ -154,5 +154,7 @@ if __name__ == '__main__':
                         help='save models for every #snapshot epochs (default: 0)')
     parser.add_argument('--resume', default='', type=str, metavar='PATH',
                         help='path to latest checkpoint (default: none)')
+    
+    mlflow.pytorch.autolog()
 
     main(parser.parse_args())
