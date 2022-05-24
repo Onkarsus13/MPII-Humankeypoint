@@ -14,6 +14,7 @@ from stacked_hourglass.train import do_training_epoch, do_validation_epoch
 from stacked_hourglass.utils.logger import Logger
 from stacked_hourglass.utils.misc import save_checkpoint, adjust_learning_rate
 import mlflow.pytorch
+import mlflow
 
 def main(args):
     # Select the hardware device to use for inference.
@@ -157,4 +158,5 @@ if __name__ == '__main__':
     
     mlflow.pytorch.autolog()
 
-    main(parser.parse_args())
+    with mlflow.start_run() as run:
+        main(parser.parse_args())
