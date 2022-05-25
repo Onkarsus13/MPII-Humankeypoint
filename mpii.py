@@ -10,7 +10,7 @@ from importlib_resources import open_binary
 from scipy.io import loadmat
 from tabulate import tabulate
 
-# import res
+import res
 from common import DataInfo
 from utils.imutils import load_image, draw_labelmap
 from utils.misc import to_torch
@@ -55,7 +55,7 @@ class Mpii(data.Dataset):
 
         # create train/val split
 
-        with gzip.open(open_binary('detections_our_format.mat', 'mpii_annotations.json.gz')) as f:
+        with gzip.open(open_binary(res, 'mpii_annotations.json.gz')) as f:
             self.anno = json.load(f)
 
         self.train_list, self.valid_list = [], []
