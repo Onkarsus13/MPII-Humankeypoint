@@ -55,7 +55,7 @@ class Mpii(data.Dataset):
 
         # create train/val split
 
-        with gzip.open(open_binary(res, 'mpii_annotations.json.gz')) as f:
+        with gzip.open(open_binary('mpii_annotations.json.gz')) as f:
             self.anno = json.load(f)
 
         self.train_list, self.valid_list = [], []
