@@ -10,7 +10,7 @@ from importlib_resources import open_binary
 from scipy.io import loadmat
 from tabulate import tabulate
 
-import res
+# import res
 from common import DataInfo
 from utils.imutils import load_image, draw_labelmap
 from utils.misc import to_torch
