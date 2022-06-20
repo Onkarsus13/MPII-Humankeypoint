@@ -3,9 +3,9 @@ import torch.backends.cudnn
 import torch.nn.parallel
 from tqdm import tqdm
 
-from loss import joints_mse_loss
-from utils.evaluation import accuracy, AverageMeter, final_preds
-from utils.transforms import fliplr, flip_back
+from stacked_hourglass.loss import joints_mse_loss
+from stacked_hourglass.utils.evaluation import accuracy, AverageMeter, final_preds
+from stacked_hourglass.utils.transforms import fliplr, flip_back
 
 
 def do_training_step(model, optimiser, input, target, data_info, target_weight=None):
@@ -68,7 +68,6 @@ def do_validation_step(model, input, target, data_info, target_weight=None, flip
     output = model(input)
     loss = sum(joints_mse_loss(o, target, target_weight) for o in output)
 
-
     # Get the heatmaps.
     if flip:
         # If `flip` is true, perform horizontally flipped inference as well. This should
@@ -100,7 +99,6 @@ def do_validation_epoch(val_loader, model, device, data_info, flip=False, quiet=
         iterable = progress
 
     for i, (input, target, meta) in iterable:
-        
         # Copy data to the training device (eg GPU).
         input = input.to(device, non_blocking=True)
         target = target.to(device, non_blocking=True)
